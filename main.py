@@ -17,6 +17,10 @@ def main():
     # A plain byte copy: no rendering, no randomness, so every run
     # writes exactly the bytes stored in the repository.
     src = os.path.join(HERE, "entry.png")
+    with open(src, "rb") as fh:
+        head = fh.read(8)
+    if head != b"\x89PNG\r\n\x1a\n":
+        raise SystemExit("entry.png is not a PNG file")
     dst = os.path.join(OUTPUT_DIR, "entry.png")
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     shutil.copyfile(src, dst)
